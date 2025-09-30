@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.money {
+  font-family: 'Inter', monospace;
+  font-weight: 600;
+}
+
+.btn-pulse {
+  animation: pulse 0.3s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sales-list {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.sales-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sales-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.sales-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.sales-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
