@@ -79,7 +79,7 @@ const POS: React.FC = () => {
   const handleTotalClick = () => {
     if (currentTotal > 0) {
       setShowTotalModal(true);
-      setAmountTendered(currentTotal.toFixed(2));
+      setAmountTendered('0.00');
       setChangeDue(null);
     }
   };
