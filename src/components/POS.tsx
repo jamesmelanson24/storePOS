@@ -13,7 +13,7 @@ const POS: React.FC = () => {
   const [showTotalModal, setShowTotalModal] = useState(false);
   const [amountTendered, setAmountTendered] = useState<string>('0.00');
   const [changeDue, setChangeDue] = useState<number | null>(null);
-  const [taxEnabled, setTaxEnabled] = useState(false);
+  const [taxEnabled, setTaxEnabled] = useState(true);
   
   useEffect(() => {
     const savedSales = localStorage.getItem('yard-sale-pos-sales');
@@ -79,7 +79,7 @@ const POS: React.FC = () => {
   const handleTotalClick = () => {
     if (currentTotal > 0) {
       setShowTotalModal(true);
-      setAmountTendered('0.00');
+      setAmountTendered(currentTotal.toFixed(2));
       setChangeDue(null);
     }
   };
