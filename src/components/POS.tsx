@@ -284,9 +284,38 @@ const POS: React.FC = () => {
               </button>
             </div>
             
-            <div className="mb-4">
-              <p className="text-gray-600">Subtotal:</p>
-              <p className="money text-2xl font-bold">{formatCurrency(currentTotal)}</p>
+            <div className="bg-gray-50 rounded-lg p-4 mb-4">
+              {taxEnabled ? (
+                <>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600">Subtotal:</span>
+                    <span className="money text-lg font-semibold">
+                      {formatCurrency(calculateTaxBreakdown(currentTotal).subtotal)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-600">HST (14%):</span>
+                    <span className="money text-lg font-semibold">
+                      {formatCurrency(calculateTaxBreakdown(currentTotal).tax)}
+                    </span>
+                  </div>
+                  <div className="border-t pt-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-800 font-semibold">Total:</span>
+                      <span className="money text-2xl font-bold text-gray-800">
+                        {formatCurrency(currentTotal)}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-800 font-semibold">Total:</span>
+                  <span className="money text-2xl font-bold text-gray-800">
+                    {formatCurrency(currentTotal)}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -297,28 +326,38 @@ const POS: React.FC = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
-                {numpadButtons.map((row, rowIndex) => (
-                  row.map((btn, btnIndex) => (
-                    <button
-                      key={`${rowIndex}-${btnIndex}`}
-                      onClick={() => handleNumpadInput(btn)}
-                      className={`
-                        py-4 text-xl font-semibold rounded-lg transition-colors
-                        ${btn === 'backspace'
-                          ? 'bg-red-100 hover:bg-red-200 text-red-600'
-                          : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
-                        }
-                        ${btn === '00' ? 'col-span-2' : ''}
-                      `}
-                    >
-                      {btn === 'backspace' ? '←' : btn}
-                    </button>
-                  ))
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                {denominations.map((denom) => (
+                  <button
+                    key={denom.value}
+                    onClick={() => {
+                      const newAmount = parseFloat(amountTendered) + denom.value;
+                      setAmountTendered(newAmount.toFixed(2));
+                      setChangeDue(newAmount - currentTotal);
+                    }}
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-2 rounded-lg transition-colors text-sm"
+                  >
+                    + {denom.label}
+                  </button>
                 ))}
+              </div>
+              
+              <div className="flex gap-2">
                 <button
-                  onClick={() => handleNumpadInput('clear')}
-                  className="col-span-3 py-2 mt-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold"
+                  onClick={() => {
+                    setAmountTendered(currentTotal.toFixed(2));
+                    setChangeDue(0);
+                  }}
+                  className="flex-1 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg font-semibold text-sm"
+                >
+                  Exact Amount
+                </button>
+                <button
+                  onClick={() => {
+                    setAmountTendered('0.00');
+                    setChangeDue(0 - currentTotal);
+                  }}
+                  className="flex-1 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold text-sm"
                 >
                   Clear
                 </button>
