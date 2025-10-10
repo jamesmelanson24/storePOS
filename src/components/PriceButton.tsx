@@ -11,8 +11,8 @@ interface PriceButtonProps {
 const PriceButton: React.FC<PriceButtonProps> = ({ value, label, imageUrl, onClick, isPulsing }) => {
   const getBackgroundColor = () => {
     if (value >= 10) return '';
-    if (value >= 5) return 'bg-emerald-500 hover:bg-emerald-600';
-    if (value >= 1) return 'bg-emerald-400 hover:bg-emerald-500';
+    if (value >= 5) return '';
+    if (value >= 1) return '';
     return 'bg-emerald-300 hover:bg-emerald-400';
   };
 
