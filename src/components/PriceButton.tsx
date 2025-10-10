@@ -21,7 +21,7 @@ const PriceButton: React.FC<PriceButtonProps> = ({ value, label, imageUrl, onCli
       onClick={onClick}
       className={`${getBackgroundColor()} ${
         isPulsing ? 'btn-pulse' : ''
-      } text-white text-xl font-semibold py-6 px-4 rounded-lg shadow transition-all flex flex-col items-center justify-center h-24 relative overflow-hidden`}
+      } text-white text-xl font-semibold rounded-lg shadow transition-all flex flex-col items-center justify-center h-24 relative overflow-hidden`}
     >
       {imageUrl ? (
         <>
