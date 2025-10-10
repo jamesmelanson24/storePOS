@@ -33,7 +33,7 @@ const PriceButton: React.FC<PriceButtonProps> = ({ value, label, imageUrl, onCli
           <span className="text-sm font-bold drop-shadow-sm">{label}</span>
         </>
       ) : (
-        <span className="text-2xl">{label}</span>
+        <span className="text-2x2">{label}</span>
       )}
     </button>
   );
