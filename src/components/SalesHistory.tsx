@@ -10,6 +10,10 @@ interface SalesHistoryProps {
 
 const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
   const handleExportToExcel = () => {
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
+    const filename = `yard-sale-sales-${dateString}.xlsx`;
+    
     const data = sales.map(sale => ({
       Date: new Date(sale.timestamp).toLocaleDateString(),
       Time: new Date(sale.timestamp).toLocaleTimeString(),
@@ -20,7 +24,7 @@ const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
     const ws = utils.json_to_sheet(data);
     const wb = utils.book_new();
     utils.book_append_sheet(wb, ws, "Sales");
-    writeFile(wb, "yard-sale-sales.xlsx");
+    writeFile(wb, filename);
   };
 
   const calculateRunningTotal = (currentSale: Sale): number => {
