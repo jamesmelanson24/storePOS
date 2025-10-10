@@ -28,7 +28,7 @@ const PriceButton: React.FC<PriceButtonProps> = ({ value, label, imageUrl, onCli
           <img 
             src={imageUrl} 
             alt={label}
-            className="object-cover rounded-md mb-1 shadow-sm"
+           
           />
           <span className="text-sm font-bold drop-shadow-sm">{label}</span>
         </>
