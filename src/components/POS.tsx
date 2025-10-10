@@ -27,12 +27,12 @@ const POS: React.FC = () => {
   }, [sales]);
 
   const denominations = [
-    { value: 20, label: '$20' },
-    { value: 10, label: '$10' },
-    { value: 5, label: '$5' },
-    { value: 2, label: '$2' },
-    { value: 1, label: '$1' },
-    { value: 0.25, label: '25¢' }
+    { value: 20, label: '$20', imageUrl: 'https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { value: 10, label: '$10', imageUrl: 'https://images.pexels.com/photos/259100/pexels-photo-259100.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { value: 5, label: '$5', imageUrl: 'https://images.pexels.com/photos/259200/pexels-photo-259200.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { value: 2, label: '$2', imageUrl: 'https://images.pexels.com/photos/730547/pexels-photo-730547.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { value: 1, label: '$1', imageUrl: 'https://images.pexels.com/photos/164527/pexels-photo-164527.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { value: 0.25, label: '25¢', imageUrl: 'https://images.pexels.com/photos/128867/coins-currency-investment-insurance-128867.jpeg?auto=compress&cs=tinysrgb&w=400' }
   ];
 
   const calculateTaxBreakdown = (total: number) => {
@@ -215,6 +215,7 @@ const POS: React.FC = () => {
                 key={denom.value}
                 value={denom.value}
                 label={denom.label}
+                imageUrl={denom.imageUrl}
                 onClick={() => handleAddAmount(denom.value)}
                 isPulsing={isPulse === denom.value.toString()}
               />
@@ -335,9 +336,16 @@ const POS: React.FC = () => {
                       setAmountTendered(newAmount.toFixed(2));
                       setChangeDue(newAmount - currentTotal);
                     }}
-                    className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-2 rounded-lg transition-colors text-sm"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-2 rounded-lg transition-colors text-sm flex flex-col items-center gap-1"
                   >
-                    + {denom.label}
+                    {denom.imageUrl && (
+                      <img 
+                        src={denom.imageUrl} 
+                        alt={denom.label}
+                        className="w-8 h-8 object-cover rounded-sm"
+                      />
+                    )}
+                    <span className="text-xs">+ {denom.label}</span>
                   </button>
                 ))}
               </div>
