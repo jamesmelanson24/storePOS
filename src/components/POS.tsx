@@ -28,12 +28,12 @@ const POS: React.FC = () => {
   }, [sales]);
 
   const denominations = [
-    { value: 20, label: '$20', imageUrl: '/src/assets/20-fotor.png' size:80 },
-    { value: 10, label: '$10', imageUrl: '/src/assets/10-fotor.png' size:80 },
-    { value: 5, label: '$5', imageUrl: '/src/assets/5-fotor.png' size:80 },
-    { value: 2, label: '$2', imageUrl: '/src/assets/2-fotor.png' size:80 },
-    { value: 1, label: '$1', imageUrl: '/src/assets/1-fotor.png' size:80 },
-    { value: 0.25, label: '25¢', imageUrl: '/src/assets/25-fotor.png' size:80 }
+    { value: 20, label: '$20', imageUrl: '/src/assets/20-fotor.png' },
+    { value: 10, label: '$10', imageUrl: '/src/assets/10-fotor.png' },
+    { value: 5, label: '$5', imageUrl: '/src/assets/5-fotor.png' },
+    { value: 2, label: '$2', imageUrl: '/src/assets/2-fotor.png' },
+    { value: 1, label: '$1', imageUrl: '/src/assets/1-fotor.png' },
+    { value: 0.25, label: '25¢', imageUrl: '/src/assets/25-fotor.png' }
   ];
 
   const calculateTaxBreakdown = (total: number) => {
