@@ -5,6 +5,13 @@ import SalesHistory from './SalesHistory';
 import { Sale } from '../types';
 import { formatCurrency } from '../utils/formatters';
 
+import bill20Url from '../assets/20-fotor.png';
+import bill10Url from '../assets/10-fotor.png';
+import bill5Url from '../assets/5-fotor.png';
+import bill2Url from '../assets/2-fotor.png';
+import bill1Url from '../assets/1-fotor.png';
+import coin25Url from '../assets/25-fotor.png';
+
 const POS: React.FC = () => {
   const [currentTotal, setCurrentTotal] = useState<number>(0);
   const [sales, setSales] = useState<Sale[]>([]);
@@ -28,12 +35,12 @@ const POS: React.FC = () => {
   }, [sales]);
 
   const denominations = [
-    { value: 20, label: '$20', imageUrl: '/src/assets/20-fotor.png' },
-    { value: 10, label: '$10', imageUrl: '/src/assets/10-fotor.png' },
-    { value: 5, label: '$5', imageUrl: '/src/assets/5-fotor.png' },
-    { value: 2, label: '$2', imageUrl: '/src/assets/2-fotor.png' },
-    { value: 1, label: '$1', imageUrl: '/src/assets/1-fotor.png' },
-    { value: 0.25, label: '25¢', imageUrl: '/src/assets/25-fotor.png' }
+    { value: 20, imageUrl: bill20Url },
+    { value: 10, imageUrl: bill10Url },
+    { value: 5, imageUrl: bill5Url },
+    { value: 2, imageUrl: bill2Url },
+    { value: 1, imageUrl: bill1Url },
+    { value: 0.25, imageUrl: coin25Url }
   ];
 
   const calculateTaxBreakdown = (total: number) => {
@@ -151,7 +158,7 @@ const POS: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto p-4 md:py-8">
+    <div className="mx-auto max-w-6xl px-4 py-6 md:py-8">
       <header className="text-center mb-6">
         <div className="flex flex-col items-center">
           {/* Replace the src below with your logo URL */}
@@ -165,8 +172,8 @@ const POS: React.FC = () => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-lg p-6">
           <div className="mb-6 flex justify-between items-center">
             <div>
               <p className="text-gray-600 mb-1">Current Total:</p>
@@ -218,7 +225,7 @@ const POS: React.FC = () => {
 
           <div className="mb-4">
             <p className="text-sm text-gray-600 mb-2">Multiplier: {multiplier}x</p>
-            <div className="grid grid-cols-10 gap-2">
+            <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                 <button
                   key={num}
@@ -235,12 +242,11 @@ const POS: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
             {denominations.map((denom) => (
-              <PriceButton 
+              <PriceButton
                 key={denom.value}
                 value={denom.value}
-                label={denom.label}
                 imageUrl={denom.imageUrl}
                 onClick={() => handleAddAmount(denom.value)}
                 isPulsing={isPulse === denom.value.toString()}
@@ -362,16 +368,18 @@ const POS: React.FC = () => {
                       setAmountTendered(newAmount.toFixed(2));
                       setChangeDue(newAmount - currentTotal);
                     }}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-3 rounded-xl transition-colors flex flex-col items-center justify-center gap-2 aspect-square"
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-3 rounded-xl transition-colors flex items-center justify-center aspect-square"
+                    aria-label={`Add ${formatCurrency(denom.value)}`}
                   >
                     {denom.imageUrl && (
                       <img
                         src={denom.imageUrl}
-                        alt={denom.label}
-                        className="w-full h-auto object-contain rounded-lg"
+                        alt={`${formatCurrency(denom.value)} denomination`}
+                        className="h-full w-full max-h-full max-w-full object-contain"
+                        draggable={false}
                       />
                     )}
-                    <span className="text-sm font-bold">+ {denom.label}</span>
+                    <span className="sr-only">Add {formatCurrency(denom.value)}</span>
                   </button>
                 ))}
               </div>
