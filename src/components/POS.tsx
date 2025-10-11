@@ -14,6 +14,7 @@ const POS: React.FC = () => {
   const [amountTendered, setAmountTendered] = useState<string>('0.00');
   const [changeDue, setChangeDue] = useState<number | null>(null);
   const [taxEnabled, setTaxEnabled] = useState(true);
+  const [multiplier, setMultiplier] = useState<number>(1);
   
   useEffect(() => {
     const savedSales = localStorage.getItem('yard-sale-pos-sales');
@@ -46,8 +47,14 @@ const POS: React.FC = () => {
   const handleAddAmount = (amount: number) => {
     setIsPulse(amount.toString());
     setTimeout(() => setIsPulse(null), 300);
-    setCurrentTotal(prev => prev + amount);
-    setCalculations(prev => [...prev, formatCurrency(amount)]);
+    const totalAmount = amount * multiplier;
+    setCurrentTotal(prev => prev + totalAmount);
+    if (multiplier > 1) {
+      setCalculations(prev => [...prev, `${multiplier} × ${formatCurrency(amount)}`]);
+    } else {
+      setCalculations(prev => [...prev, formatCurrency(amount)]);
+    }
+    setMultiplier(1);
   };
 
   const handleDeleteLastAmount = () => {
@@ -207,6 +214,25 @@ const POS: React.FC = () => {
               />
               <span className="text-sm text-gray-700">Nova Scotia HST (14%)</span>
             </label>
+          </div>
+
+          <div className="mb-4">
+            <p className="text-sm text-gray-600 mb-2">Multiplier: {multiplier}x</p>
+            <div className="grid grid-cols-10 gap-2">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                <button
+                  key={num}
+                  onClick={() => setMultiplier(num)}
+                  className={`py-2 px-3 rounded-lg font-semibold transition-all ${
+                    multiplier === num
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  }`}
+                >
+                  {num}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
