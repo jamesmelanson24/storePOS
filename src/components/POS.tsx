@@ -32,7 +32,7 @@ const POS: React.FC = () => {
     { value: 5, label: '$5', imageUrl: '/src/assets/5-fotor.png' },
     { value: 2, label: '$2', imageUrl: '/src/assets/2-fotor.png' },
     { value: 1, label: '$1', imageUrl: '/src/assets/1-fotor.png' },
-    { value: 0.25, label: '25¢', imageUrl: '/src/assets/25-fotor.png'' }
+    { value: 0.25, label: '25¢', imageUrl: '/src/assets/25-fotor.png' }
   ];
 
   const calculateTaxBreakdown = (total: number) => {
