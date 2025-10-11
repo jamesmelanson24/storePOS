@@ -6,31 +6,25 @@ interface PriceButtonProps {
   imageUrl?: string;
   onClick: () => void;
   isPulsing: boolean;
+  size?: 'default' | 'small';
 }
 
 const PriceButton: React.FC<PriceButtonProps> = ({ value, label, imageUrl, onClick, isPulsing }) => {
-  const getBackgroundColor = () => {
-    if (value >= 10) return '';
-    if (value >= 5) return '';
-    if (value >= 1) return '';
-    return 'bg-emerald-300 hover:bg-emerald-400';
-  };
-
   return (
     <button
       onClick={onClick}
-      className={`${getBackgroundColor()} ${
+      className={`${
         isPulsing ? 'btn-pulse' : ''
-      } text-white text-xl font-semibold rounded-lg shadow transition-all flex flex-col items-center justify-center h-24 relative overflow-hidden`}
+      } bg-gray-100 hover:bg-gray-200 text-gray-800 text-xl font-semibold rounded-xl shadow transition-all flex flex-col items-center justify-center p-4 relative overflow-hidden aspect-square`}
     >
       {imageUrl ? (
         <>
-          <img 
-            src={imageUrl} 
+          <img
+            src={imageUrl}
             alt={label}
-            className="object-cover rounded-md mb-1 shadow-sm"
+            className="w-full h-auto object-contain rounded-lg mb-2"
           />
-          <span className="">{label}</span>
+          <span className="text-sm font-bold">{label}</span>
         </>
       ) : (
         <span className="">{label}</span>

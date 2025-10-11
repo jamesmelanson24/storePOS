@@ -353,7 +353,7 @@ const POS: React.FC = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 mb-4">
+              <div className="grid grid-cols-2 gap-3 mb-4">
                 {denominations.map((denom) => (
                   <button
                     key={denom.value}
@@ -362,16 +362,16 @@ const POS: React.FC = () => {
                       setAmountTendered(newAmount.toFixed(2));
                       setChangeDue(newAmount - currentTotal);
                     }}
-                    className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-2 rounded-lg transition-colors text-sm flex flex-col items-center gap-1"
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-3 rounded-xl transition-colors flex flex-col items-center justify-center gap-2 aspect-square"
                   >
                     {denom.imageUrl && (
-                      <img 
-                        src={denom.imageUrl} 
+                      <img
+                        src={denom.imageUrl}
                         alt={denom.label}
-                        className="w-8 h-8 object-cover rounded-sm"
+                        className="w-full h-auto object-contain rounded-lg"
                       />
                     )}
-                    <span className="text-xs">+ {denom.label}</span>
+                    <span className="text-sm font-bold">+ {denom.label}</span>
                   </button>
                 ))}
               </div>
