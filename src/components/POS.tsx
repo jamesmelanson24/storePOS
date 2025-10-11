@@ -27,11 +27,11 @@ const POS: React.FC = () => {
   }, [sales]);
 
   const denominations = [
-    { value: 20, imageUrl: '/src/assets/20-fotor.png' },
-    { value: 10, imageUrl: '/src/assets/10-fotor.png' },
-    { value: 5, imageUrl: '/src/assets/5-fotor.png' },
-    { value: 2, label: '$2', imageUrl: 'https://images.pexels.com/photos/730547/pexels-photo-730547.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { value: 1, label: '$1', imageUrl: 'https://images.pexels.com/photos/164527/pexels-photo-164527.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { value: 20, label: '$20', imageUrl: '/src/assets/20-fotor.png' },
+    { value: 10, label: '$10', imageUrl: '/src/assets/10-fotor.png' },
+    { value: 5, label: '$5', imageUrl: '/src/assets/5-fotor.png' },
+    { value: 2, label: '$2', imageUrl: '/src/assets/2-fotor.png' },
+    { value: 1, label: '$1', imageUrl: '/src/assets/1-fotor.png' },
     { value: 0.25, label: '25¢', imageUrl: 'https://images.pexels.com/photos/128867/coins-currency-investment-insurance-128867.jpeg?auto=compress&cs=tinysrgb&w=400' }
   ];
 
