@@ -292,114 +292,80 @@ const POS: React.FC = () => {
 
       {showTotalModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 relative">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-4 relative">
             <button
               onClick={() => setShowTotalModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Sale Total</h3>
+            <h3 className="text-xl font-bold text-gray-800 mb-3">Sale Total</h3>
 
-            <div className="space-y-3 mb-6">
-              {taxEnabled && (
-                <>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Subtotal:</span>
-                    <span className="money font-semibold">
-                      {formatCurrency(calculateTaxBreakdown(currentTotal).subtotal)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">HST (14%):</span>
-                    <span className="money font-semibold">
-                      {formatCurrency(calculateTaxBreakdown(currentTotal).tax)}
-                    </span>
-                  </div>
-                  <div className="border-t pt-2"></div>
-                </>
-              )}
-              {!taxEnabled && (
-                <div className="flex justify-between">
-                  <span className="text-gray-800 font-semibold">Total:</span>
-                  <span className="money text-2xl font-bold text-gray-800">
-                    {formatCurrency(currentTotal)}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <p className="text-gray-600 mb-2">Amount Tendered:</p>
-              <div className="bg-gray-50 p-3 rounded-lg mb-2">
-                <p className="money text-2xl font-bold text-right">
-                  ${amountTendered}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                {denominations.map((denom) => (
-                  <button
-                    key={denom.value}
-                    onClick={() => {
-                      const newAmount = parseFloat(amountTendered) + denom.value;
-                      setAmountTendered(newAmount.toFixed(2));
-                      setChangeDue(newAmount - currentTotal);
-                    }}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-3 rounded-xl transition-colors flex items-center justify-center aspect-square"
-                    aria-label={`Add ${formatCurrency(denom.value)}`}
-                  >
-                    {denom.imageUrl && (
-                      <img
-                        src={denom.imageUrl}
-                        alt={`${formatCurrency(denom.value)} denomination`}
-                        className="h-full w-full max-h-full max-w-full object-contain"
-                        draggable={false}
-                      />
-                    )}
-                    <span className="sr-only">Add {formatCurrency(denom.value)}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    setAmountTendered(currentTotal.toFixed(2));
-                    setChangeDue(0);
-                  }}
-                  className="flex-1 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg font-semibold text-sm"
-                >
-                  Exact Amount
-                </button>
-                <button
-                  onClick={() => {
-                    setAmountTendered('0.00');
-                    setChangeDue(0 - currentTotal);
-                  }}
-                  className="flex-1 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold text-sm"
-                >
-                  Clear
-                </button>
+            <div className="bg-gray-50 p-3 rounded-lg mb-3">
+              <div className="flex justify-between items-baseline">
+                <span className="text-gray-600 text-sm">Total:</span>
+                <span className="money text-2xl font-bold text-gray-800">
+                  {formatCurrency(currentTotal)}
+                </span>
               </div>
             </div>
 
-            {changeDue !== null && (
-              <div className={`p-4 rounded-lg mb-4 ${
-                changeDue >= 0 ? 'bg-emerald-50' : 'bg-red-50'
-              }`}>
-                <p className="text-sm text-gray-600 mb-1">Change Due:</p>
-                <p className={`money text-3xl font-bold ${
-                  changeDue >= 0 ? 'text-emerald-600' : 'text-red-600'
-                }`}>
-                  {formatCurrency(Math.abs(changeDue))}
-                </p>
-                {changeDue < 0 && (
-                  <p className="text-sm text-red-600 mt-1">Insufficient payment</p>
-                )}
-              </div>
-            )}
+            <div className="grid grid-cols-3 gap-1 mb-3">
+              {denominations.map((denom) => (
+                <button
+                  key={denom.value}
+                  onClick={() => {
+                    const newAmount = parseFloat(amountTendered) + denom.value;
+                    setAmountTendered(newAmount.toFixed(2));
+                    setChangeDue(newAmount - currentTotal);
+                  }}
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-2 rounded-lg transition-colors flex items-center justify-center aspect-square"
+                  aria-label={`Add ${formatCurrency(denom.value)}`}
+                >
+                  {denom.imageUrl && (
+                    <img
+                      src={denom.imageUrl}
+                      alt={`${formatCurrency(denom.value)} denomination`}
+                      className="h-full w-full max-h-full max-w-full object-contain"
+                      draggable={false}
+                    />
+                  )}
+                  <span className="sr-only">Add {formatCurrency(denom.value)}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="bg-blue-50 p-2 rounded-lg mb-3">
+              <p className="text-xs text-gray-600 mb-1">Tendered: <span className="money font-semibold">${amountTendered}</span></p>
+              {changeDue !== null && changeDue >= 0 && (
+                <p className="text-lg font-bold text-blue-600">Change: <span className="money">{formatCurrency(changeDue)}</span></p>
+              )}
+              {changeDue !== null && changeDue < 0 && (
+                <p className="text-sm text-red-600">Need {formatCurrency(Math.abs(changeDue))} more</p>
+              )}
+            </div>
+
+            <div className="flex gap-2 mb-2">
+              <button
+                onClick={() => {
+                  setAmountTendered(currentTotal.toFixed(2));
+                  setChangeDue(0);
+                }}
+                className="flex-1 py-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg font-semibold text-xs"
+              >
+                Exact
+              </button>
+              <button
+                onClick={() => {
+                  setAmountTendered('0.00');
+                  setChangeDue(null);
+                }}
+                className="flex-1 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold text-xs"
+              >
+                Clear
+              </button>
+            </div>
 
             <div className="flex gap-3">
               <button
