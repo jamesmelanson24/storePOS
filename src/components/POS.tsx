@@ -204,7 +204,7 @@ const POS: React.FC = () => {
           <div className="grid grid-cols-3 gap-3 mb-6 flex-grow">
             <div className="col-span-1 p-3 sm:p-4 bg-gray-50 rounded-lg flex flex-col">
               <p className="text-sm font-semibold text-gray-700 mb-3">Multiplier: <span className="text-blue-600">{multiplier}x</span></p>
-              <div className="grid grid-cols-3 gap-2 flex-grow">
+              <div className="grid grid-cols-3 gap-2">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                   <button
                     key={num}
@@ -220,7 +220,7 @@ const POS: React.FC = () => {
                 ))}
                 <button
                   onClick={() => setMultiplier(10)}
-                  className={`col-span-3 aspect-square rounded-lg font-bold text-sm sm:text-base transition-all ${
+                  className={`aspect-square rounded-lg font-bold text-sm sm:text-base transition-all ${
                     multiplier === 10
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-300'
@@ -228,10 +228,21 @@ const POS: React.FC = () => {
                 >
                   10
                 </button>
+                <button
+                  onClick={handleTotalClick}
+                  disabled={currentTotal <= 0}
+                  className={`col-span-2 aspect-square rounded-lg font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1
+                    ${currentTotal > 0
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md'
+                      : 'bg-gray-400 cursor-not-allowed text-white'}`}
+                >
+                  <DollarSign className="w-4 h-4" />
+                  <span>Total</span>
+                </button>
               </div>
             </div>
 
-            <div className="col-span-2 grid grid-cols-3 gap-2">
+            <div className="col-span-2 grid grid-cols-3 gap-1">
               {denominations.map((denom) => (
                 <PriceButton
                   key={denom.value}
@@ -244,31 +255,17 @@ const POS: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button
-              onClick={handleTotalClick}
-              disabled={currentTotal <= 0}
-              className={`py-4 rounded-lg font-semibold text-white transition-all flex items-center justify-center gap-2
-                ${currentTotal > 0
-                  ? 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg'
-                  : 'bg-gray-400 cursor-not-allowed'}`}
-            >
-              <DollarSign className="w-5 h-5" />
-              <span>Total</span>
-            </button>
-
-            <button
-              onClick={handleCompleteSale}
-              disabled={currentTotal <= 0}
-              className={`py-4 rounded-lg font-semibold text-white transition-all flex items-center justify-center gap-2
-                ${currentTotal > 0
-                  ? 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg'
-                  : 'bg-gray-400 cursor-not-allowed'}`}
-            >
-              <Check className="w-5 h-5" />
-              <span>Complete Sale</span>
-            </button>
-          </div>
+          <button
+            onClick={handleCompleteSale}
+            disabled={currentTotal <= 0}
+            className={`w-full py-6 rounded-xl font-bold text-xl text-white transition-all flex items-center justify-center gap-3 shadow-lg
+              ${currentTotal > 0
+                ? 'bg-blue-600 hover:bg-blue-700 hover:shadow-xl'
+                : 'bg-gray-400 cursor-not-allowed'}`}
+          >
+            <Check className="w-6 h-6" />
+            <span>Complete Sale</span>
+          </button>
         </div>
 
         <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6 flex flex-col">
