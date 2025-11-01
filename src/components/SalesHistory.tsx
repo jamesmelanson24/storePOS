@@ -1,14 +1,15 @@
 import React from 'react';
-import { Download } from 'lucide-react';
+import { Download, RefreshCw } from 'lucide-react';
 import { Sale } from '../types';
 import { formatCurrency, formatTime } from '../utils/formatters';
 import { utils, writeFile } from 'xlsx';
 
 interface SalesHistoryProps {
   sales: Sale[];
+  onRefund?: (saleId: number) => void;
 }
 
-const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
+const SalesHistory: React.FC<SalesHistoryProps> = ({ sales, onRefund }) => {
   const handleExportToExcel = () => {
     const today = new Date();
     const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD format
@@ -68,13 +69,22 @@ const SalesHistory: React.FC<SalesHistoryProps> = ({ sales }) => {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-500">Total:</span>
-                <span className="money font-semibold text-emerald-600">
+                <span className="money font-semibold text-blue-600">
                   {formatCurrency(calculateRunningTotal(sale))}
                 </span>
+                {onRefund && (
+                  <button
+                    onClick={() => onRefund(sale.id)}
+                    className="ml-2 p-1 text-red-600 hover:bg-red-50 rounded transition-colors"
+                    title="Refund this sale"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
             {index === 0 && (
-              <div className="text-xs text-emerald-600 font-medium">
+              <div className="text-xs text-blue-600 font-medium">
                 ↑ Most recent sale
               </div>
             )}

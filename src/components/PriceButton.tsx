@@ -25,7 +25,7 @@ const PriceButton: React.FC<PriceButtonProps> = ({ value, imageUrl, onClick, isP
           <img
             src={imageUrl}
             alt={`${accessibleLabel} denomination`}
-            className="h-full w-full max-h-full max-w-full object-contain"
+            className="h-full w-full max-h-full max-w-full object-contain rounded-none"
             draggable={false}
           />
           <span className="sr-only">{accessibleLabel}</span>

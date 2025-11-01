@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DollarSign, Trash2, Check, RotateCcw, Delete, X } from 'lucide-react';
+import { DollarSign, Trash2, Check, RotateCcw, Delete, X, RefreshCw } from 'lucide-react';
 import PriceButton from './PriceButton';
 import SalesHistory from './SalesHistory';
 import { Sale } from '../types';
@@ -120,6 +120,13 @@ const POS: React.FC = () => {
     }
   };
 
+  const handleRefund = (saleId: number) => {
+    const sale = sales.find(s => s.id === saleId);
+    if (sale && confirm(`Refund ${formatCurrency(sale.total)}?`)) {
+      setSales(prev => prev.filter(s => s.id !== saleId));
+    }
+  };
+
   const totalSales = sales.reduce((sum, sale) => sum + sale.total, 0);
 
   const numpadButtons = [
@@ -130,21 +137,21 @@ const POS: React.FC = () => {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 md:py-8">
-      <header className="text-center mb-6">
+    <div className="mx-auto max-w-7xl px-2 sm:px-3 md:px-4 py-3 sm:py-4 md:py-6">
+      <header className="text-center mb-4 sm:mb-6">
         <div className="flex flex-col items-center">
           <img
             src="https://i.imgur.com/sLeCCU2.jpeg"
             alt="Store Logo"
-            className="h-16 mb-3 object-contain"
+            className="h-10 sm:h-14 md:h-16 mb-2 sm:mb-3 object-contain"
           />
-          <p className="text-gray-600">Quick and simple point of sale</p>
-          <p className="text-gray-600">Tine in, Taste Life: Music, Trends, Fun, and Treats!</p>
+          <p className="text-xs sm:text-sm text-gray-600">Quick and simple point of sale</p>
+          <p className="text-xs sm:text-sm text-gray-600">Tine in, Taste Life: Music, Trends, Fun, and Treats!</p>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-lg p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6 lg:col-span-2">
           <div className="mb-6 flex justify-between items-center">
             <div>
               <p className="text-gray-600 mb-1">Current Total:</p>
@@ -243,7 +250,7 @@ const POS: React.FC = () => {
               disabled={currentTotal <= 0}
               className={`py-4 rounded-lg font-semibold text-white transition-all flex items-center justify-center gap-2
                 ${currentTotal > 0
-                  ? 'bg-emerald-600 hover:bg-emerald-700 shadow-md hover:shadow-lg'
+                  ? 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg'
                   : 'bg-gray-400 cursor-not-allowed'}`}
             >
               <Check className="w-5 h-5" />
@@ -252,7 +259,7 @@ const POS: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col">
+        <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-bold text-gray-800">Sales History</h3>
             <button
@@ -264,13 +271,13 @@ const POS: React.FC = () => {
               Clear All
             </button>
           </div>
-          <div className="mb-4 p-3 bg-emerald-50 rounded-lg">
+          <div className="mb-4 p-3 bg-blue-50 rounded-lg">
             <p className="text-sm text-gray-600">Total Sales Today:</p>
-            <p className="money text-2xl font-bold text-emerald-600">
+            <p className="money text-2xl font-bold text-blue-600">
               {formatCurrency(totalSales)}
             </p>
           </div>
-          <SalesHistory sales={sales} />
+          <SalesHistory sales={sales} onRefund={handleRefund} />
         </div>
       </div>
 
