@@ -38,6 +38,64 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+
+/* --- iPad / Tablet Optimization --- */
+
+/* Base layout adjustments */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Smooth text/UI scaling from phone → desktop */
+:root {
+  font-size: clamp(14px, 1.4vw, 20px);
+}
+
+/* Prevent POS buttons and lists from overflowing on tablets */
+@media (max-width: 1024px) {
+  .container, .main, .page {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  /* Optional: hide or stack side panels */
+  .sidebar {
+    display: none;
+  }
+
+  /* Ensure sales list doesn't run off-screen */
+  .sales-list {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+/* Portrait tablets (768–820px width) */
+@media (max-width: 820px) {
+  .grid, .button-group, .keypad {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  body {
+    font-size: 0.9rem;
+  }
+}
+
+/* Fix Safari's 100vh bug (for modals or full-screen POS) */
+.full-height {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: auto;
+}
+
+
 }
 
 .sales-list {
