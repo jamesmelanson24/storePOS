@@ -151,15 +151,15 @@ const POS: React.FC = () => {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-        <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6 lg:col-span-2">
+        <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6 lg:col-span-2 flex flex-col">
           <div className="mb-6 flex justify-between items-center">
             <div>
               <p className="text-gray-600 mb-1">Current Total:</p>
-              <h2 className="money text-4xl font-bold text-gray-800">
+              <h2 className="money text-3xl sm:text-4xl font-bold text-gray-800">
                 {formatCurrency(currentTotal)}
               </h2>
               {calculations.length > 0 && (
-                <div className="mt-2 text-sm text-gray-500">
+                <div className="mt-2 text-xs sm:text-sm text-gray-500">
                   <div className="fade-in font-mono">
                     {calculations.join(' + ')} = {formatCurrency(currentTotal)}
                   </div>
@@ -201,35 +201,47 @@ const POS: React.FC = () => {
             </label>
           </div>
 
-          <div className="mb-4">
-            <p className="text-sm text-gray-600 mb-2">Multiplier: {multiplier}x</p>
-            <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+          <div className="grid grid-cols-3 gap-3 mb-6 flex-grow">
+            <div className="col-span-1 p-3 sm:p-4 bg-gray-50 rounded-lg flex flex-col">
+              <p className="text-sm font-semibold text-gray-700 mb-3">Multiplier: <span className="text-blue-600">{multiplier}x</span></p>
+              <div className="grid grid-cols-3 gap-2 flex-grow">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                  <button
+                    key={num}
+                    onClick={() => setMultiplier(num)}
+                    className={`aspect-square rounded-lg font-bold text-sm sm:text-base transition-all ${
+                      multiplier === num
+                        ? 'bg-blue-600 text-white shadow-md'
+                        : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-300'
+                    }`}
+                  >
+                    {num}
+                  </button>
+                ))}
                 <button
-                  key={num}
-                  onClick={() => setMultiplier(num)}
-                  className={`py-2 px-3 rounded-lg font-semibold transition-all ${
-                    multiplier === num
+                  onClick={() => setMultiplier(10)}
+                  className={`col-span-3 aspect-square rounded-lg font-bold text-sm sm:text-base transition-all ${
+                    multiplier === 10
                       ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                      : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-300'
                   }`}
                 >
-                  {num}
+                  10
                 </button>
+              </div>
+            </div>
+
+            <div className="col-span-2 grid grid-cols-3 gap-2">
+              {denominations.map((denom) => (
+                <PriceButton
+                  key={denom.value}
+                  value={denom.value}
+                  imageUrl={denom.imageUrl}
+                  onClick={() => handleAddAmount(denom.value)}
+                  isPulsing={isPulse === denom.value.toString()}
+                />
               ))}
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
-            {denominations.map((denom) => (
-              <PriceButton
-                key={denom.value}
-                value={denom.value}
-                imageUrl={denom.imageUrl}
-                onClick={() => handleAddAmount(denom.value)}
-                isPulsing={isPulse === denom.value.toString()}
-              />
-            ))}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
