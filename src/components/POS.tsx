@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { X, Trash2 } from "lucide-react";
-import SalesHistory from "./SalesHistory";
 import PriceButton from "./PriceButton";
+import SalesHistory from "./SalesHistory";
 import { Sale } from "../types";
 import { formatCurrency } from "../utils/formatters";
 
@@ -91,16 +91,7 @@ const POS: React.FC = () => {
   const [changeDue, setChangeDue] = useState<number | null>(null);
 
   const [customPrice, setCustomPrice] = useState("");
-
-  // Load / save sales
-  useEffect(() => {
-    const savedSales = localStorage.getItem("yard-sale-pos-sales");
-    if (savedSales) setSales(JSON.parse(savedSales));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("yard-sale-pos-sales", JSON.stringify(sales));
-  }, [sales]);
+  const [pulseKey, setPulseKey] = useState<string | null>(null);
 
   const denominations = useMemo(
     () => [
@@ -113,6 +104,16 @@ const POS: React.FC = () => {
     ],
     []
   );
+
+  // Load / save sales
+  useEffect(() => {
+    const savedSales = localStorage.getItem("yard-sale-pos-sales");
+    if (savedSales) setSales(JSON.parse(savedSales));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("yard-sale-pos-sales", JSON.stringify(sales));
+  }, [sales]);
 
   const currentTotal = useMemo(
     () => lines.reduce((sum, l) => sum + l.amount, 0),
@@ -182,9 +183,7 @@ const POS: React.FC = () => {
       <div className="px-3 sm:px-4 py-3 flex items-center justify-between border-b bg-white">
         <div className="min-w-0">
           <div className="text-sm text-gray-500">Quick POS</div>
-          <div className="text-base font-semibold truncate">
-            Canadian Beats Marketplace
-          </div>
+          <div className="text-base font-semibold truncate">Canadian Beats Marketplace</div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -212,9 +211,7 @@ const POS: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-3 p-3 sm:p-4 overflow-hidden">
           {/* Categories */}
           <aside className="bg-white rounded-2xl border p-2 md:p-3 overflow-auto">
-            <div className="text-xs font-semibold text-gray-500 px-2 py-2">
-              Categories
-            </div>
+            <div className="text-xs font-semibold text-gray-500 px-2 py-2">Categories</div>
 
             <div className="grid grid-cols-3 md:grid-cols-1 gap-2">
               {CATEGORIES.map((c) => (
@@ -239,9 +236,7 @@ const POS: React.FC = () => {
 
             <div className="mt-4 px-2 py-2 text-xs text-gray-500">
               Total Sales Today:{" "}
-              <span className="font-semibold text-gray-700">
-                {formatCurrency(totalSales)}
-              </span>
+              <span className="font-semibold text-gray-700">{formatCurrency(totalSales)}</span>
             </div>
           </aside>
 
@@ -266,14 +261,12 @@ const POS: React.FC = () => {
             {/* Quick Prices */}
             {cfg.quickPrices?.length ? (
               <div className="mt-3">
-                <div className="text-xs font-semibold text-gray-500 mb-2">
-                  Quick Prices
-                </div>
+                <div className="text-xs font-semibold text-gray-500 mb-2">Quick Prices</div>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                   {cfg.quickPrices.map((p) => (
                     <button
                       key={p}
-                      onClick={() => addLine(category, p)} // ✅ SIMPLE label
+                      onClick={() => addLine(category, p)} // SIMPLE label
                       className="rounded-2xl border bg-gray-50 hover:bg-gray-100 p-4 font-extrabold text-lg"
                     >
                       {formatCurrency(p)}
@@ -286,16 +279,12 @@ const POS: React.FC = () => {
             {/* Custom Price (simple) */}
             {cfg.allowCustomPrice ? (
               <div className="mt-3 rounded-2xl border bg-gray-50 p-3">
-                <div className="text-xs font-semibold text-gray-500 mb-2">
-                  Custom Price
-                </div>
+                <div className="text-xs font-semibold text-gray-500 mb-2">Custom Price</div>
 
                 <div className="grid grid-cols-[1fr_160px] gap-2">
                   <input
                     value={customPrice}
-                    onChange={(e) =>
-                      setCustomPrice(e.target.value.replace(/[^\d.]/g, ""))
-                    }
+                    onChange={(e) => setCustomPrice(e.target.value.replace(/[^\d.]/g, ""))}
                     placeholder="0.00"
                     inputMode="decimal"
                     className="px-3 py-3 rounded-xl border bg-white text-right font-semibold text-lg"
@@ -304,7 +293,7 @@ const POS: React.FC = () => {
                     onClick={() => {
                       const amt = Number(customPrice);
                       if (!amt || amt <= 0) return;
-                      addLine(category, amt); // ✅ SIMPLE label
+                      addLine(category, amt); // SIMPLE label
                       setCustomPrice("");
                     }}
                     className="px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg"
@@ -318,27 +307,21 @@ const POS: React.FC = () => {
             {/* Fixed Items Grid */}
             {(cfg.items?.length ?? 0) > 0 && (
               <div className="mt-3 overflow-auto">
-                <div className="text-xs font-semibold text-gray-500 mb-2">
-                  Items
-                </div>
+                <div className="text-xs font-semibold text-gray-500 mb-2">Items</div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
                   {fixedItems.map((it) => (
                     <button
                       key={it.id}
-                      onClick={() => addLine(it.name, it.price)} // item label is fine
+                      onClick={() => addLine(it.name, it.price)}
                       className="rounded-2xl border bg-gray-50 hover:bg-gray-100 active:scale-[0.99] transition p-4 text-left min-h-[92px]"
                     >
                       <div className="font-semibold text-base">{it.name}</div>
-                      <div className="text-sm text-gray-600 mt-1">
-                        {formatCurrency(it.price)}
-                      </div>
+                      <div className="text-sm text-gray-600 mt-1">{formatCurrency(it.price)}</div>
                     </button>
                   ))}
 
                   {fixedItems.length === 0 && (
-                    <div className="col-span-full text-center text-gray-500 py-10">
-                      No items found.
-                    </div>
+                    <div className="col-span-full text-center text-gray-500 py-10">No items found.</div>
                   )}
                 </div>
               </div>
@@ -351,14 +334,11 @@ const POS: React.FC = () => {
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <div className="text-xs text-gray-500">Current Total</div>
-              <div className="text-2xl font-extrabold tracking-tight">
-                {formatCurrency(currentTotal)}
-              </div>
+              <div className="text-2xl font-extrabold tracking-tight">{formatCurrency(currentTotal)}</div>
 
               {taxEnabled && currentTotal > 0 && (
                 <div className="text-xs text-gray-500">
-                  Subtotal {formatCurrency(breakdown.subtotal)} + Tax{" "}
-                  {formatCurrency(breakdown.tax)}
+                  Subtotal {formatCurrency(breakdown.subtotal)} + Tax {formatCurrency(breakdown.tax)}
                 </div>
               )}
 
@@ -394,9 +374,7 @@ const POS: React.FC = () => {
                 disabled={currentTotal <= 0}
                 className={[
                   "px-4 py-3 rounded-xl font-semibold text-white",
-                  currentTotal <= 0
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700",
+                  currentTotal <= 0 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700",
                 ].join(" ")}
               >
                 Total / Pay
@@ -419,36 +397,33 @@ const POS: React.FC = () => {
             </button>
 
             <div className="text-lg font-bold">Sale Total</div>
-            <div className="mt-2 text-2xl font-extrabold">
-              {formatCurrency(currentTotal)}
-            </div>
+            <div className="mt-2 text-2xl font-extrabold">{formatCurrency(currentTotal)}</div>
 
             <div className="mt-4 grid grid-cols-3 gap-2">
               {denominations.map((denom) => (
                 <PriceButton
                   key={denom.value}
-                  amount={denom.value}
+                  value={denom.value}
                   imageUrl={denom.imageUrl}
                   onClick={() => {
+                    setPulseKey(String(denom.value));
+                    setTimeout(() => setPulseKey(null), 250);
                     const newAmount = parseFloat(amountTendered) + denom.value;
                     setAmountTendered(newAmount.toFixed(2));
                     setChangeDue(newAmount - currentTotal);
                   }}
-                  isPulsing={false}
+                  isPulsing={pulseKey === String(denom.value)}
                 />
               ))}
             </div>
 
             <div className="mt-4 flex items-center justify-between text-sm">
               <div>
-                Tendered:{" "}
-                <span className="font-semibold">${amountTendered}</span>
+                Tendered: <span className="font-semibold">${amountTendered}</span>
               </div>
 
               {changeDue !== null && changeDue >= 0 && (
-                <div className="font-semibold">
-                  Change: {formatCurrency(changeDue)}
-                </div>
+                <div className="font-semibold">Change: {formatCurrency(changeDue)}</div>
               )}
               {changeDue !== null && changeDue < 0 && (
                 <div className="font-semibold text-rose-600">
@@ -520,12 +495,7 @@ const POS: React.FC = () => {
             </button>
 
             <div className="text-lg font-bold mb-3">Sales History</div>
-            <SalesHistory
-              sales={sales}
-              onClearAll={clearAllSales}
-              onRefund={refund}
-              totalSales={totalSales}
-            />
+            <SalesHistory sales={sales} onClearAll={clearAllSales} onRefund={refund} totalSales={totalSales} />
           </div>
         </div>
       )}
